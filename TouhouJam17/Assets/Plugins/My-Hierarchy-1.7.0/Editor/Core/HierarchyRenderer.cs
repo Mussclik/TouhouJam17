@@ -89,8 +89,8 @@ namespace MyHierarchy
         private static bool HasNextSibling = false; 
         private static MyHierarchySettings settings;
 
-        static HierarchyRenderer() => EditorApplication.hierarchyWindowItemByEntityIdOnGUI += OnGameObjectItemRender;
-        static void OnGameObjectItemRender(EntityId instanceID, Rect selectionRect)
+        static HierarchyRenderer() => EditorApplication.hierarchyWindowItemOnGUI += OnGameObjectItemRender;
+        static void OnGameObjectItemRender(int instanceID, Rect selectionRect)
         {
             bool isHeaderGroup = false;
             IsCurrentlyDrawingSelectedObject = false;
