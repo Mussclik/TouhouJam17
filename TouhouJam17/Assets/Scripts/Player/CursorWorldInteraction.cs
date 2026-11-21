@@ -38,7 +38,7 @@ public class CursorWorldInteraction : MonoBehaviour
             if (usePlane)
             {
                 triedRay = default;
-                CursorToPlane(defaultChecker, defaultChecker.farClipPlane, out newPos);
+                CursorToFixedCameraPlane(defaultChecker, defaultChecker.farClipPlane, out newPos);
             }
             else
             {
@@ -56,7 +56,15 @@ public class CursorWorldInteraction : MonoBehaviour
         }
     }
 
-    public static bool CursorToPlane(Camera aCamera, float aDistance, out Vector3 aOutWorldPoint)
+    public static bool CursorToFixedCameraPlane(Camera aCamera, float aDistance, out Vector3 aOutWorldPoint)
+    {
+        Vector3 forward = aCamera.transform.forward;
+        Vector3 planePoint = aCamera.transform.position + (forward * aDistance);
+        Plane plane = new Plane(-forward, planePoint);
+        return CursorToPlane(aCamera, plane, out aOutWorldPoint);
+    }
+
+    public static bool CursorToPlane(Camera aCamera, Plane aPlane, out Vector3 aOutWorldPoint)
     {
         if (Mouse.current == null)
         {
@@ -67,11 +75,7 @@ public class CursorWorldInteraction : MonoBehaviour
 
         Ray ray = aCamera.ScreenPointToRay(Mouse.current.position.ReadValue() * 0.25f);
 
-        Vector3 forward = aCamera.transform.forward;
-        Vector3 planePoint = aCamera.transform.position + (forward * aDistance);
-        Plane plane = new Plane(-forward, planePoint);
-
-        if (plane.Raycast(ray, out float enter) && enter >= 0f)
+        if (aPlane.Raycast(ray, out float enter) && enter >= 0f)
         {
             aOutWorldPoint = ray.GetPoint(enter);
             return true;
@@ -80,7 +84,7 @@ public class CursorWorldInteraction : MonoBehaviour
         aOutWorldPoint = default;
         return false;
     }
-
+        
     public static bool CursorToWorld(Camera aCamera, LayerMask aMask, out Vector3 aOutWorldPoint)
     {
         if (Mouse.current == null)
