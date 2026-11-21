@@ -8,6 +8,7 @@ public class StationSlider : MonoBehaviour
     [SerializeField] private Transform handle, line;
     private Vector3 startPoint, endPoint;
     private float lastT = 0f;
+    public float snapPoints = 20;
 
     public event Action<float> onChangePercent = (scrap) => { };
 
@@ -28,22 +29,43 @@ public class StationSlider : MonoBehaviour
     public void ClampHandlePosition()
     {
         handle.position = handle.position.ClosestPointOnLine(startPoint, endPoint, out float t);
-        if (!Mathf.Approximately(lastT, t))
+        SetHandlePosition(t, out float newT);
+        if (!Mathf.Approximately(lastT, newT))
         {
-            onChangePercent(t);
+            onChangePercent(newT);
         }
     }
 
-    public void SetHandlePosition(float aT)
+    public void SetHandlePosition(float aTime)
     {
-        handle.position = Vector3.Lerp(startPoint, endPoint, aT);
-        onChangePercent(aT);
+        Vector3 snapLength = (endPoint - startPoint) / snapPoints;
+        Vector3 newPos = (((endPoint - startPoint) * aTime) + startPoint);
+        Vector3 cutOff = new Vector3(newPos.x % snapLength.x, newPos.y % snapLength.y, newPos.z % snapLength.z);
+        Vector3 posToSet = newPos - cutOff;
+        handle.position = posToSet;
+        
+        float fullLength = Vector3.Distance(startPoint, endPoint);
+        float newLengthNormalised = Vector3.Distance(handle.position, startPoint) / fullLength;
+        onChangePercent(newLengthNormalised);
+    }    
+    public void SetHandlePosition(float aTime, out float aNewTime)
+    {
+        Vector3 snapLength = (endPoint - startPoint) / snapPoints;
+        Vector3 newPos = (((endPoint - startPoint) * aTime) + startPoint);
+        Vector3 cutOff = new Vector3(newPos.x % snapLength.x, newPos.y % snapLength.y, newPos.z % snapLength.z);
+        Vector3 posToSet = newPos - cutOff;
+        handle.position = posToSet;
+        
+        float fullLength = Vector3.Distance(startPoint, endPoint);
+        float newLengthNormalised = Vector3.Distance(handle.position, startPoint) / fullLength;
+        aNewTime = newLengthNormalised;
+        onChangePercent(newLengthNormalised);
     }
 
     public void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(startPoint, 0.2f);        
+        Gizmos.DrawWireSphere(startPoint, 0.2f);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(endPoint, 0.2f);
     }
