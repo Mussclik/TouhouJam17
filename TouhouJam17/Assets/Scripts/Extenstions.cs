@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 public static class Extenstions
 {
@@ -27,5 +28,25 @@ public static class Extenstions
 
         aOutComponent = null;
         return false;
+    }
+
+    public static int RepeatInt(this Mathf math, int val, int top)
+    {
+        if (top <= 0)
+        {
+            Debug.LogError("top was not greater than 0!");
+        }
+        
+        while (val > top)
+        {
+            val -= top;
+        }
+
+        while (val < 0)
+        {
+            val += top;
+        }
+
+        return val;
     }
 }

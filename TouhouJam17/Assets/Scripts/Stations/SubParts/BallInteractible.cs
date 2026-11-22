@@ -1,22 +1,26 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using Audio;
 using UnityEngine;
 
 public class BallInteractible : InteractableBase
 {
-    private bool isActive = true;
-    private bool blockInput = false;
-    private float startLocalZ = 0;
+    public event Action onExitBounds = () => { };
+    public Vector3 startPosition;
+    [SerializeField] private bool isActive = true;
     [SerializeField] private List<Collider> triggers;
+
+    private Coroutine failCoroutine = null;
 
     void Start()
     {
-        startLocalZ = transform.localPosition.z;
+        startPosition = transform.position;
     }
 
     void Update()
     {
-        if (isActive)
+        if (isActive == true && isEnabled)
         {
             if (isHeld)
             {
@@ -25,16 +29,32 @@ public class BallInteractible : InteractableBase
                 CursorWorldInteraction.CursorToPlane(Camera.main, ballPlane, out newPos);
 
                 transform.position = newPos;
-                //clamp position just in case :/
+                //clamp position just in case :/ // Nuh uh :3
             }
 
-            if (triggers.Count < 0)
+            if (triggers.Count == 0 && failCoroutine == null)
             {
-                Debug.Log("Do stuff");
+                Debug.Log("exitedBounds");
+                onExitBounds.Invoke();
+                failCoroutine = StartCoroutine(Fail());
             }
         }
     }
 
+    IEnumerator Fail()
+    {
+        CursorWorldInteraction.ForceHeldInteractableRelease();
+        AlarmLight.PlayAlarm();
+        isEnabled = false;
+        
+        yield return new WaitForSeconds(0.5f);
+        transform.position = startPosition;
+        yield return new WaitForSeconds(0.5f);
+
+        isEnabled = true;
+        failCoroutine = null;
+    }
+    
     private void OnTriggerEnter(Collider other)
     {
         if (!triggers.Contains(other))
@@ -45,25 +65,5 @@ public class BallInteractible : InteractableBase
     {
         if (triggers.Contains(other))
             triggers.Remove(other);
-    }
-
-    public override void OnPointerDown()
-    {
-        base.OnPointerDown();
-    }
-
-    public override void OnPointerUp()
-    {
-        base.OnPointerUp();
-    }
-
-    public override void OnPointerEnter()
-    {
-        base.OnPointerEnter();
-    }
-
-    public override void OnPointerExit()
-    {
-        base.OnPointerExit();
     }
 }

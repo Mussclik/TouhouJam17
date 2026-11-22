@@ -3,6 +3,7 @@ using UnityEngine;
 public abstract class InteractableBase : MonoBehaviour
 {
     protected bool isHeld = false;
+    public bool isEnabled = true; 
 
     public virtual void OnPointerDown()
     {

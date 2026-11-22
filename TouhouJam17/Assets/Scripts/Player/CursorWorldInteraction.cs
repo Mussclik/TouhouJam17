@@ -22,6 +22,7 @@ public class CursorWorldInteraction : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(this);
+            
         }
         else
         {
@@ -112,6 +113,11 @@ public class CursorWorldInteraction : MonoBehaviour
             aOutWorldPoint = default;
         }
 
+        if (hitInteractible?.isEnabled == false)
+        {
+            hitInteractible = null;
+        }
+        
         HandleMouseButtons(hitInteractible);
 
         // only when not holding something down
@@ -147,12 +153,7 @@ public class CursorWorldInteraction : MonoBehaviour
     {
         if (Mouse.current.leftButton.wasReleasedThisFrame)
         {
-            if (Instance.currentDownInteractible != null)
-            {
-                Instance.currentDownInteractible.OnPointerUp();
-                Instance.currentDownInteractible = null;
-            }
-
+            ForceHeldInteractableRelease();
             return;
         }
 
@@ -166,6 +167,15 @@ public class CursorWorldInteraction : MonoBehaviour
         }
     }
 
+    public static void ForceHeldInteractableRelease()
+    {
+        if (Instance.currentDownInteractible != null)
+        {
+            Instance.currentDownInteractible.OnPointerUp();
+            Instance.currentDownInteractible = null;
+        }
+    }
+    
     // ReSharper disable Unity.PerformanceAnalysis
     private static void SetHovered(InteractableBase aNewHover)
     {

@@ -6,7 +6,6 @@ using UnityEngine.EventSystems;
 public class StationHandleSlider : InteractableBase
 {
     [SerializeField] private StationSlider slider;
-    
     public void Update()
     {
         if (isHeld)

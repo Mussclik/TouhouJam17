@@ -81,8 +81,9 @@ public class SignalRecieverStation : MonoBehaviour
         }
 
         aSlider.snapPoints = snapPoints;
-        aSlider.SetHandlePosition(Mathf.Clamp(aGetter(), aClampMin, aClampMax));
+        aSlider.SetHandlePosition(Mathf.Clamp(aGetter.Invoke(), aClampMin, aClampMax));
         aSlider.onChangePercent += (aVal) => aSetter(aVal);
+        aSlider.Start();
     }
 }
 

@@ -1,0 +1,76 @@
+<mxfile host="Electron">
+  <diagram name="Page-1" id="WKkZVoYHPYzhrDjKs5LM">
+    <mxGraphModel dx="975" dy="586" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-10" edge="1" parent="1" source="M6Mj18tJmXUqHvbPQNZH-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0;exitY=0.5;exitDx=0;exitDy=0;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" target="M6Mj18tJmXUqHvbPQNZH-2">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-12" edge="1" parent="1" source="M6Mj18tJmXUqHvbPQNZH-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" target="M6Mj18tJmXUqHvbPQNZH-3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-14" edge="1" parent="1" source="M6Mj18tJmXUqHvbPQNZH-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;fillColor=#f8cecc;gradientColor=#ea6b66;strokeColor=#b85450;" target="M6Mj18tJmXUqHvbPQNZH-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-15" edge="1" parent="1" source="M6Mj18tJmXUqHvbPQNZH-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=0;exitDx=0;exitDy=0;entryX=0.25;entryY=1;entryDx=0;entryDy=0;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" target="M6Mj18tJmXUqHvbPQNZH-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-16" edge="1" parent="1" source="M6Mj18tJmXUqHvbPQNZH-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=0;exitDx=0;exitDy=0;entryX=0.75;entryY=1;entryDx=0;entryDy=0;fillColor=#dae8fc;gradientColor=#7ea6e0;strokeColor=#6c8ebf;" target="M6Mj18tJmXUqHvbPQNZH-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-17" edge="1" parent="1" source="M6Mj18tJmXUqHvbPQNZH-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.25;exitY=1;exitDx=0;exitDy=0;entryX=0.75;entryY=0;entryDx=0;entryDy=0;fillColor=#f8cecc;strokeColor=#b85450;gradientColor=#ea6b66;" target="M6Mj18tJmXUqHvbPQNZH-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-18" edge="1" parent="1" source="M6Mj18tJmXUqHvbPQNZH-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;fillColor=#f8cecc;strokeColor=#b85450;gradientColor=#ea6b66;" target="M6Mj18tJmXUqHvbPQNZH-9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-19" edge="1" parent="1" source="M6Mj18tJmXUqHvbPQNZH-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.75;exitY=1;exitDx=0;exitDy=0;entryX=0.25;entryY=0;entryDx=0;entryDy=0;fillColor=#f8cecc;strokeColor=#b85450;gradientColor=#ea6b66;" target="M6Mj18tJmXUqHvbPQNZH-8">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-1" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Player&lt;div&gt;(Doremy)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="324" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Workstation 1&lt;div&gt;(Gain nightmare signal)&lt;/div&gt;&lt;div&gt;{Match Frequency}&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="120" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-3" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Workstation 4&lt;div&gt;(send away)&lt;/div&gt;&lt;div&gt;{gain points/progress}&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="530" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-4" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Workstation 2&lt;div&gt;(Decrypt dream signal)&lt;/div&gt;&lt;div&gt;{abs server game votv}&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="130" x="170" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-5" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Workstation 3&lt;div&gt;(Purify)&lt;/div&gt;&lt;div&gt;{takes time}&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="130" x="470" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Rin Satsuki&lt;div&gt;(She appears, and you must look at her for a bit before she goes away, shine the flashlight a bit, not look for too long)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="120" x="324" y="180" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-7" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Mima&lt;div&gt;(Keep a seal powered, if not then you get jumped but the unsealed mima)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="180" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-21" edge="1" parent="1" source="M6Mj18tJmXUqHvbPQNZH-8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="M6Mj18tJmXUqHvbPQNZH-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-8" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Anti air station&lt;div&gt;(Input numbers like C:U capsule)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="470" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Nue Houjou&lt;div&gt;(Spot the difference)&lt;/div&gt;" vertex="1">
+          <mxGeometry height="60" width="120" x="324" y="480" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-20" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Code appears like Papers please ticket citation on screen" vertex="1">
+          <mxGeometry height="60" width="120" x="620" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-22" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="Song:&amp;nbsp;A World of Nightmares Never Seen Before" vertex="1">
+          <mxGeometry height="50" width="150" x="309" y="80" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="(Characters that are unidentified or not seens / limbo canon)" vertex="1">
+          <mxGeometry height="50" width="271" x="248.5" y="130" as="geometry" />
+        </mxCell>
+        <mxCell id="M6Mj18tJmXUqHvbPQNZH-38" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="" vertex="1">
+          <mxGeometry height="60" width="120" x="1030" y="270" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
