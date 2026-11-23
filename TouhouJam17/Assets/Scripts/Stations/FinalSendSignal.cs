@@ -17,6 +17,8 @@ public class FinalSendSignal : BaseStation
     private const string ProgressTextPrefix = "Progress: ";
     private const string RemainingSignalsTextPrefix = "Dream Signals: ";
 
+    private bool won = false;
+
     private void Start()
     {
         UpdateVisuals();
@@ -24,6 +26,10 @@ public class FinalSendSignal : BaseStation
 
     private void Update()
     {
+        if (won)
+        {
+            progressText.text = "Goed job soldier, you are stuck there though...";
+        }
         if (processedSignals >= 20)
         {
             finishGameButton.SetEnabled();

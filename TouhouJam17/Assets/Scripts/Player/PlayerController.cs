@@ -5,6 +5,7 @@ using Audio;
 using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -38,6 +39,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private InputActionReference leftRef;
     [SerializeField] private InputActionReference rightRef;
     [SerializeField] private InputActionReference toggleFlashlightAction;
+    [SerializeField] private InputActionReference pauseAction;
+    [SerializeField] private GameObject pauseMenu;
 
     private void Awake()
     {
@@ -48,16 +51,23 @@ public class PlayerController : MonoBehaviour
     private void OnEnable()
     {
         toggleFlashlightAction.action.performed += ToggleFlashlight;
+        pauseAction.action.performed += TogglePauseMenu;
     }
 
     private void OnDisable()
     {
         toggleFlashlightAction.action.performed -= ToggleFlashlight;
+        pauseAction.action.performed -= TogglePauseMenu;
+    }
+
+    private void TogglePauseMenu(InputAction.CallbackContext cxt)
+    {
+        pauseMenu.SetActive(!pauseMenu.activeSelf);
     }
 
     private void Start()
     {
-        AudioSource source = Sound.PlayFromResource("Atmosphere", transform.position, aIsThreeDimensional: false, aFollow: transform, aVolume: 0.8f, aMixerGroup: Resources.Load<AudioMixer>("Mixer/AudioMixer").FindMatchingGroups("Music")[0]);
+        AudioSource source = Sound.PlayFromResource("Atmosphere", transform.position, aIsThreeDimensional: false, aFollow: transform, aVolume: 0.8f, aMixerGroup: Resources.Load<AudioMixer>("Mixer/AudioMixer").FindMatchingGroups("Music")[0], aStoppable:true);
         source.loop = true;
 
     }
@@ -178,9 +188,10 @@ public class PlayerController : MonoBehaviour
         flashlight.gameObject.SetActive(!flashlight.gameObject.activeSelf);
         Audio.Sound.PlayFromResource("Flashlight", Camera.main.transform.position, aFollow: Camera.main.transform, aVolume: 0.1f);
     }
-
+    
     public void JumpScaare(EMonsterType aType)
     {
+        SceneManager.LoadScene(2);
         //stop coroutines
         //block interactions with the world,
         //disable
