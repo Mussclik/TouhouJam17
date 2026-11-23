@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Audio;
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -9,15 +11,14 @@ public class PlayerController : MonoBehaviour
     public static PlayerController Instance = null;
     [SerializeField] private BaseStation[] stations = new BaseStation[(int)EStates.enumCount];
 
-    [Header("Rotation")] 
-    [SerializeField] private Transform baseCameraPos;
+    [Header("Rotation")] [SerializeField] private Transform baseCameraPos;
     [SerializeField] private Transform playerRotation;
     [SerializeField] private AnimationCurve rotationCurve;
     [SerializeField] private Light flashlight = null;
     [SerializeField] private float rotationLength = 45f;
     [SerializeField] private float rotationTime = 0.3f;
     [SerializeField] public EStates currentState;
-    public bool IsFlashlightEnabled => flashlight.enabled; 
+    public bool IsFlashlightEnabled => flashlight.gameObject.activeSelf;
 
     [Header("cameraMoving")] [SerializeField]
     private AnimationCurve cameraMoveCurve;
@@ -30,8 +31,9 @@ public class PlayerController : MonoBehaviour
 
     #region InputActions
 
-    [Header("InputActions")] 
-    [SerializeField] private InputActionReference upRef;
+    [Header("InputActions")] [SerializeField]
+    private InputActionReference upRef;
+
     [SerializeField] private InputActionReference backRef;
     [SerializeField] private InputActionReference leftRef;
     [SerializeField] private InputActionReference rightRef;
@@ -45,20 +47,32 @@ public class PlayerController : MonoBehaviour
 
     private void OnEnable()
     {
-        upRef.action.performed += GoUp;
-        backRef.action.performed += GoDown;
-        leftRef.action.performed += GoLeft;
-        rightRef.action.performed += GoRight;
         toggleFlashlightAction.action.performed += ToggleFlashlight;
     }
 
     private void OnDisable()
     {
-        upRef.action.performed -= GoUp;
-        backRef.action.performed -= GoDown;
-        leftRef.action.performed -= GoLeft;
-        rightRef.action.performed -= GoRight;
         toggleFlashlightAction.action.performed -= ToggleFlashlight;
+    }
+
+    private void Start()
+    {
+        AudioSource source = Sound.PlayFromResource("Atmosphere", transform.position, aIsThreeDimensional: false, aFollow: transform, aVolume: 0.8f, aMixerGroup: Resources.Load<AudioMixer>("Mixer/AudioMixer").FindMatchingGroups("Music")[0]);
+        source.loop = true;
+
+    }
+
+    private void Update()
+    {
+        UpdateKeys();
+    }
+
+    private void UpdateKeys()
+    {
+        if (upRef.action.IsPressed()) GoUp();
+        if (backRef.action.IsPressed()) GoDown();
+        if (leftRef.action.IsPressed()) GoLeft();
+        if (rightRef.action.IsPressed()) GoRight();
     }
 
     #endregion
@@ -115,16 +129,20 @@ public class PlayerController : MonoBehaviour
         myMovingCoroutine = null;
     }
 
-    private void GoUp(InputAction.CallbackContext cxt)
+    private void GoUp()
     {
         if (CurrentStation.canFocus && myMovingCoroutine == null && isFocused == false)
         {
             myMovingCoroutine = StartCoroutine(MoveCamera(Camera.main.transform, CurrentStation.IdealCameraPos, CurrentStation.IdealCameraPos));
             isFocused = true;
         }
+        else if (currentState == EStates.NueSpot && myMovingCoroutine == null && isFocused == true)
+        {
+            GoDown();
+        }
     }
 
-    private void GoDown(InputAction.CallbackContext cxt)
+    private void GoDown()
     {
         if (myMovingCoroutine == null && isFocused == true)
         {
@@ -133,7 +151,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void GoLeft(InputAction.CallbackContext cxt)
+    private void GoLeft()
     {
         if (myMovingCoroutine == null && isFocused == false)
         {
@@ -143,7 +161,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void GoRight(InputAction.CallbackContext cxt)
+    private void GoRight()
     {
         if (myMovingCoroutine == null && isFocused == false)
         {
@@ -152,15 +170,15 @@ public class PlayerController : MonoBehaviour
             currentState = (EStates)Mathf.Repeat((int)currentState, (int)EStates.enumCount);
         }
     }
-    
+
     #endregion
 
     private void ToggleFlashlight(InputAction.CallbackContext cxt)
     {
-        flashlight.enabled = !flashlight.enabled;
-        Audio.Sound.PlayFromResource("Flashlight", Camera.main.transform.position, aFollow: Camera.main.transform, aVolume: 0.01f);
+        flashlight.gameObject.SetActive(!flashlight.gameObject.activeSelf);
+        Audio.Sound.PlayFromResource("Flashlight", Camera.main.transform.position, aFollow: Camera.main.transform, aVolume: 0.1f);
     }
-    
+
     public void JumpScaare(EMonsterType aType)
     {
         //stop coroutines
@@ -168,7 +186,7 @@ public class PlayerController : MonoBehaviour
         //disable
         //teleport camera somewhere
         //play spoooky jumpscare infront of player
-        
+
         //Lowkey just load a different scene
         //hardcut to menu
     }

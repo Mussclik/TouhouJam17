@@ -81,7 +81,7 @@ public class NueBehaviour : BaseStation
             isInsideOffice = false;
             StartCoroutine(MoveDoor(true));
             SetSpriteState(whoAttacking, false);
-            Audio.Sound.PlayFromResource("Door", door.position, aVolume: 0.01f, aPitchShift: false);
+            Audio.Sound.PlayFromResource("Door", door.position, aPitchShift: false);
             timeHide = 0f;
         }
     }
@@ -107,7 +107,7 @@ public class NueBehaviour : BaseStation
                 isInsideOffice = true;
                 StartCoroutine(MoveDoor(false));
                 SetSpriteState(whoAttacking, true);
-                Audio.Sound.PlayFromResource("Door", door.position, aVolume: 0.05f, aPitchShift: false);
+                Audio.Sound.PlayFromResource("Door", door.position, aPitchShift: false);
                 timeHide = 0f;
             }
 
@@ -195,8 +195,5 @@ public class NueBehaviour : BaseStation
             mimaSprite.gameObject.SetActive(aSpriteState);
         }
     }
-
-    private void InitiateMovementOpportunity()
-    {
-    }
+    
 }

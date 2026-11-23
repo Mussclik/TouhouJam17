@@ -30,7 +30,7 @@ namespace Audio
         /// <returns></returns>
         public static AudioSource Play
         (
-            AudioClip aClip, 
+            AudioClip aClip,
             Vector3 aPos,
             bool aIsThreeDimensional = true,
             Transform aFollowParent = null,
@@ -73,16 +73,9 @@ namespace Audio
                 else
                 {
                     AudioMixer baseAudioMixer = null;
-                    try
-                    {
-                        baseAudioMixer = Resources.Load<AudioMixer>("Mixer/AudioMixer");
-                    }
-                    catch (Exception e)
-                    {
-                        Debug.LogError("Sound.cs was unable to load a AudioMixer from Play(...) argument or Resources/Mixer/AudioMixer.mixer");
-                        Debug.LogError(e);
-                        throw;
-                    }
+
+                    baseAudioMixer = Resources.Load<AudioMixer>("Mixer/AudioMixer");
+
 
                     if (baseAudioMixer)
                     {
@@ -98,6 +91,10 @@ namespace Audio
                             throw;
                         }
                     }
+                    else
+                    {
+                        Debug.LogError("Sound.cs was unable to load a AudioMixer from Play(...) argument or Resources/Mixer/AudioMixer.mixer");
+                    }
                 }
 
                 source.transform.position = aPos;
@@ -111,13 +108,19 @@ namespace Audio
                     source.Play();
                 }
 
-                source.gameObject.TryGetComponent<AudioReleaser>(out AudioReleaser releaser);
-                if (!releaser)
+                // source.gameObject.TryGetComponent<AudioReleaser>(out AudioReleaser releaser);
+                // if (!releaser)
+                // {
+                //     releaser = source.AddComponent<AudioReleaser>();
+                // }
+                //
+                // releaser.SetToUsed();
+                source.gameObject.TryGetComponent<AudioDestroyer>(out AudioDestroyer destroyer);
+                if (!destroyer)
                 {
-                    releaser = source.AddComponent<AudioReleaser>();
+                    destroyer = source.AddComponent<AudioDestroyer>();
                 }
-
-                releaser.SetToUsed();
+                
 
                 return source;
             }
@@ -162,13 +165,13 @@ namespace Audio
 
         private static AudioSource GetOrCreateFreeAudioSource()
         {
-            for (int i = 0; i < globalAudioSourcePool.Count; i++)
-            {
-                if (globalAudioSourcePool[i].isFree)
-                {
-                    return globalAudioSourcePool[i].MySource;
-                }
-            }
+            // for (int i = 0; i < globalAudioSourcePool.Count; i++)
+            // {
+            //     if (globalAudioSourcePool[i].isFree)
+            //     {
+            //         return globalAudioSourcePool[i].MySource;
+            //     }
+            // }
 
             AudioSource newSource = new GameObject("Audio", typeof(AudioSource)).GetComponent<AudioSource>();
             globalAudioSourcePool.Add(newSource.gameObject.AddComponent<AudioReleaser>());

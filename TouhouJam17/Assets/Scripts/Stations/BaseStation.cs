@@ -14,8 +14,8 @@ public class BaseStation : MonoBehaviour
     [SerializeField] protected int unprocessedSignals = 0;
     [SerializeField] protected int processedSignals = 0;
     
-    protected bool HasUnprocessedSignal => unprocessedSignals >= 1;
-    protected bool HasProcessedSignal => processedSignals >= 1;
+    public bool HasUnprocessedSignal => unprocessedSignals >= 1;
+    public bool HasProcessedSignal => processedSignals >= 1;
     
     public void RecieveSignal()
     {

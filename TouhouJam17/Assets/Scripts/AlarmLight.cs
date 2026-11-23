@@ -48,7 +48,7 @@ public class AlarmLight : MonoBehaviour
         {
             if (!audioSource || audioSource.isPlaying == false)
             {
-                audioSource = Audio.Sound.PlayFromResource(GetAlarmFromEnum(aType), Instance.transform.position, aVolume: 0.01f, aPitchShift: false);
+                audioSource = Audio.Sound.PlayFromResource(GetAlarmFromEnum(aType), Instance.transform.position, aPitchShift: false, aVolume: 0.7f);
                 ++i;
             }
 
