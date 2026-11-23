@@ -7,13 +7,12 @@ using Random = UnityEngine.Random;
 
 public class ProcessingStation : BaseStation
 {
-
     [SerializeField] private Image progressImage;
     [SerializeField] private Vector2 minMaxProcessingTime = new Vector2(10f, 20f);
 
     [SerializeField] private StationButton startButton;
     [SerializeField] private StationButton sendButton;
-    
+
     private Coroutine myProcessingCoroutine = null;
 
 
@@ -24,22 +23,22 @@ public class ProcessingStation : BaseStation
 
     private void Update()
     {
-        if (HasSignal && myProcessingCoroutine == null)
+        if (HasUnprocessedSignal && myProcessingCoroutine == null)
         {
-            startButton.isEnabled = true;
+            startButton.SetEnabled();
         }
         else
         {
-            startButton.isEnabled = false;
+            startButton.SetDisabled();
         }
 
         if (HasProcessedSignal)
         {
-            sendButton.isEnabled = true;
+            sendButton.SetEnabled();
         }
         else
         {
-            sendButton.isEnabled = false;
+            sendButton.SetDisabled();
         }
     }
 
@@ -57,17 +56,14 @@ public class ProcessingStation : BaseStation
 
     private void StartProcessing()
     {
-        if (myProcessingCoroutine == null && HasSignal)
-        {
-            myProcessingCoroutine = StartCoroutine(Processing());
-        }
+        myProcessingCoroutine = StartCoroutine(Processing());
     }
-    
+
     private IEnumerator Processing()
     {
         float maxTime = Random.Range(minMaxProcessingTime.x, minMaxProcessingTime.y);
         float time = 0;
-        
+
         while (time < maxTime)
         {
             time += Time.deltaTime;
@@ -75,8 +71,8 @@ public class ProcessingStation : BaseStation
             yield return null;
         }
 
-        --unprocessedSignals;
-        ++processedSignals;
+        progressImage.fillAmount = 0;
+        ProcessSignal();
         myProcessingCoroutine = null;
     }
 }

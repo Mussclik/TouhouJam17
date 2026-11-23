@@ -2,7 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SignalRecieverStation : MonoBehaviour
+public class SignalRecieverStation : BaseStation
 {
     public static SignalRecieverStation Instance;
 
@@ -27,6 +27,7 @@ public class SignalRecieverStation : MonoBehaviour
     [SerializeField] private StationSlider sliderAmplitude;
     [SerializeField] private StationSlider sliderXOffset;
     [SerializeField] private Image progressFillImage;
+    [SerializeField] private StationButton sendButton;
 
     #region Properties
 
@@ -42,12 +43,11 @@ public class SignalRecieverStation : MonoBehaviour
         if (!Instance)
         {
             Instance = this;
-            DontDestroyOnLoad(this);
         }
         else
         {
             Debug.Log("deleted self :3");
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 
@@ -70,6 +70,32 @@ public class SignalRecieverStation : MonoBehaviour
 
         float closeness = 1 * playerWave.CompareCloseness(goalWave);
         progressFillImage.fillAmount = closeness;
+
+        if (closeness > 0.9f)
+        {
+            sendButton.SetEnabled();
+        }
+        else
+        {
+            sendButton.SetDisabled();
+        }
+    }
+
+    public override void SendSignal()
+    {
+        ++processedSignals;
+        base.SendSignal();
+        goalWave.RandomiseValues();
+    }
+
+    private void OnEnable()
+    {
+        sendButton.OnActivated += SendSignal;
+    }
+
+    private void OnDisable()
+    {
+        sendButton.OnActivated -= SendSignal;
     }
 
     public void BindSlider(StationSlider aSlider, Func<float> aGetter, Action<float> aSetter, float aClampMin = 0, float aClampMax = 1)

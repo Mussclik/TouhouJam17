@@ -7,6 +7,7 @@ public class CursorWorldInteraction : MonoBehaviour
     [SerializeField] private bool usePlane = false;
     [SerializeField] private Ray triedRay = default;
     [SerializeField] private Camera defaultChecker;
+    [SerializeField] private Transform playerFlashlight;
 
     [Header("StaticStuff")] [SerializeField]
     private InteractableBase currentDownInteractible = null;
@@ -97,6 +98,8 @@ public class CursorWorldInteraction : MonoBehaviour
 
         Ray ray = aCamera.ScreenPointToRay(Mouse.current.position.ReadValue() * 0.25f);
         Instance.triedRay = ray;
+        Instance.playerFlashlight.rotation = Quaternion.LookRotation(ray.direction);
+        
         bool didHit = Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, aMask);
 
         InteractableBase hitInteractible = null;
@@ -113,7 +116,7 @@ public class CursorWorldInteraction : MonoBehaviour
             aOutWorldPoint = default;
         }
 
-        if (hitInteractible?.isEnabled == false)
+        if (hitInteractible != null && hitInteractible.isEnabled == false)
         {
             hitInteractible = null;
         }

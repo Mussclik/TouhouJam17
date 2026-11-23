@@ -1,27 +1,64 @@
 using System;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class StationButton : InteractableBase
 {
+    public static Material glowyGreen;
+    public static Material mundaneRed;
+    
+    
     public event Action OnActivated = () => { };
+    [FormerlySerializedAs("light")] [SerializeField] private Light myLight;
+    [SerializeField] private MeshRenderer interactablePart;
+    
     public override void OnPointerDown()
     {
         base.OnPointerDown();
         OnActivated.Invoke();
     }
 
-    public override void OnPointerUp()
+    public void SetEnabled()
     {
-        base.OnPointerUp();
+        if (isEnabled) return;
+        
+        isEnabled = true;
+        myLight.enabled = true;
+        interactablePart.material = glowyGreen;
     }
 
-    public override void OnPointerEnter()
+    public void SetDisabled()
     {
-        base.OnPointerEnter();
+        if (!isEnabled) return;
+        
+        isEnabled = false;
+        myLight.enabled = false;
+        interactablePart.material = mundaneRed;
     }
 
-    public override void OnPointerExit()
+    public void Start()
     {
-        base.OnPointerExit();
+        //SetMaterials
+        if (!mundaneRed)
+        {
+            mundaneRed = Resources.Load<Material>("Materials/Red");
+        }
+
+        if (!glowyGreen)
+        {
+            glowyGreen = Resources.Load<Material>("Materials/Green");
+        }
+
+        //make sure correct visual apply.
+        if (isEnabled)
+        {
+            isEnabled = false;
+            SetEnabled();
+        }
+        else
+        {
+            isEnabled = true;
+            SetDisabled();
+        }
     }
 }

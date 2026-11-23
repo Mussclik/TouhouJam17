@@ -9,6 +9,7 @@ public class AlarmLight : MonoBehaviour
     [SerializeField] private int alarmPlayTimes = 5;
     [SerializeField] private float rotationSpeed = 20f;
     private Coroutine myAlarmCoroutine = null;
+    private AudioSource currentAS = null;
 
     private void Awake()
     {
@@ -24,25 +25,30 @@ public class AlarmLight : MonoBehaviour
         }
     }
 
-    public static void PlayAlarm()
+    public static void PlayAlarm(AlarmType aType, int aPlayTimes = 5)
     {
         if (Instance.myAlarmCoroutine == null)
         {
-            Instance.myAlarmCoroutine = Instance.StartCoroutine(AlarmCoroutine());
+            Instance.myAlarmCoroutine = Instance.StartCoroutine(AlarmCoroutine(aType));
         }
     }
 
-    private static IEnumerator AlarmCoroutine()
+    public static void ForceStopAlarm()
+    {
+        Instance.StopActiveAlarm();
+    }
+
+    private static IEnumerator AlarmCoroutine(AlarmType aType, Func<bool> aPlayUntilFalse = null)
     {
         int i = 0;
         Instance.lights.SetActive(true);
         AudioSource audioSource = null;
 
-        while (i < Instance.alarmPlayTimes || audioSource.isPlaying == true)
+        while (LocalShouldContinuePlaying(i))
         {
-            if ((!audioSource || audioSource.isPlaying == false) && i < Instance.alarmPlayTimes)
+            if (!audioSource || audioSource.isPlaying == false)
             {
-                audioSource = Audio.Sound.PlayFromResource("Alarm", Instance.transform.position, aVolume: 0.01f, aPitchShift: false);
+                audioSource = Audio.Sound.PlayFromResource(GetAlarmFromEnum(aType), Instance.transform.position, aVolume: 0.01f, aPitchShift: false);
                 ++i;
             }
 
@@ -58,8 +64,63 @@ public class AlarmLight : MonoBehaviour
 
             yield return null;
         }
-        
+
+        audioSource?.Stop();
         Instance.lights.SetActive(false);
         Instance.myAlarmCoroutine = null;
+
+
+        bool LocalShouldContinuePlaying(int aI)
+        {
+            if (aPlayUntilFalse != null)
+            {
+                return aPlayUntilFalse.Invoke();
+            }
+            else
+            {
+                return aI < Instance.alarmPlayTimes;
+            }
+        }
     }
+
+    private void StopActiveAlarm()
+    {
+        if (myAlarmCoroutine != null)
+        {
+            StopCoroutine(myAlarmCoroutine);
+            myAlarmCoroutine = null;
+        }
+
+        CleanupAlarm();
+    }
+
+    private void CleanupAlarm()
+    {
+        if (currentAS)
+        {
+            currentAS = null;
+        }
+
+        lights.SetActive(false);
+    }
+
+    private static string GetAlarmFromEnum(AlarmType aType)
+    {
+        switch (aType)
+        {
+            case AlarmType.Mimi:
+                return "UtsuhoAlarm";
+            case AlarmType.MazeFail:
+                return "Alarm";
+
+            default:
+                return "Alarm";
+        }
+    }
+}
+
+public enum AlarmType
+{
+    Mimi,
+    MazeFail,
 }

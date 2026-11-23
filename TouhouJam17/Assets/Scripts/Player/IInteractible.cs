@@ -3,18 +3,19 @@ using UnityEngine;
 public abstract class InteractableBase : MonoBehaviour
 {
     protected bool isHeld = false;
-    public bool isEnabled = true; 
-
+    public bool isEnabled = true;
+    [SerializeField] protected bool isLogging = false;
+    
     public virtual void OnPointerDown()
     {
-        Debug.Log("Pointer Down");
+        if(isLogging) Debug.Log("Pointer Down");
         isHeld = true;
     }
     public virtual void OnPointerUp()
     {
         WorldToUI.PlaceUIOverWorld(transform.position, WorldToUI.InteractSymbol.GetComponent<RectTransform>());
         WorldToUI.InteractSymbol.gameObject.SetActive(true);
-        Debug.Log("Pointer Up");
+        if(isLogging) Debug.Log("Pointer Up");
         isHeld = false;
     }
 
@@ -23,12 +24,12 @@ public abstract class InteractableBase : MonoBehaviour
         WorldToUI.PlaceUIOverWorld(transform.position, WorldToUI.InteractSymbol.GetComponent<RectTransform>());
         WorldToUI.InteractSymbol.gameObject.SetActive(true);
 
-        Debug.Log("Pointer Entered");
+        if(isLogging) Debug.Log("Pointer Entered");
     }
 
     public virtual void OnPointerExit()
     {
         WorldToUI.InteractSymbol.gameObject.SetActive(false);
-        Debug.Log("Pointer Exited");
+        if(isLogging) Debug.Log("Pointer Exited");
     }
 }

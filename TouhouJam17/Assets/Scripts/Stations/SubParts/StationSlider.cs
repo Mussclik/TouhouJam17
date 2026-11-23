@@ -4,7 +4,7 @@ using Random = UnityEngine.Random;
 
 public class StationSlider : MonoBehaviour
 {
-    public bool hasStarted { get; private set;}
+    public bool hasStarted { get; private set; }
     [SerializeField] private float minValue, maxValue;
     [SerializeField] private Transform handle, line;
     private Vector3 startPoint, endPoint;
@@ -20,7 +20,7 @@ public class StationSlider : MonoBehaviour
             float length = line.lossyScale.x;
             startPoint = line.TransformPoint(line.right * length * 0.5f);
             endPoint = line.TransformPoint((line.right * -1) * length * 0.5f);
-            SetHandlePosition(Random.Range(0f,1f));
+            SetHandlePosition(Random.Range(0f, 1f));
         }
     }
 
@@ -39,22 +39,28 @@ public class StationSlider : MonoBehaviour
         }
     }
 
-    public void SetHandlePosition(float aTime)
-    {
-        SetHandlePosition(aTime, out float scrap);
-    }    
+    public void SetHandlePosition(float aTime) => SetHandlePosition(aTime, out _);
+    
+
     public void SetHandlePosition(float aTime, out float aNewTime)
     {
-        Vector3 snapLength = (endPoint - startPoint) / snapPoints;
-        Vector3 newPos = (((endPoint - startPoint) * aTime) + startPoint);
-        Vector3 cutOff = new Vector3(newPos.x % snapLength.x, newPos.y % snapLength.y, newPos.z % snapLength.z);
-        Vector3 posToSet = newPos - cutOff;
-        handle.position = posToSet;
-        
-        float fullLength = Vector3.Distance(startPoint, endPoint);
-        float newLengthNormalised = Vector3.Distance(handle.position, startPoint) / fullLength;
-        aNewTime = newLengthNormalised;
-        onChangePercent(newLengthNormalised);
+        aTime = Mathf.Clamp01(aTime);
+
+        float snappedT;
+
+        if (snapPoints > 0f)
+        {
+            snappedT = Mathf.Round(aTime * snapPoints) / snapPoints;
+        }
+        else
+        {
+            snappedT = aTime;
+        }
+
+        handle.position = Vector3.Lerp(startPoint, endPoint, snappedT);
+
+        aNewTime = snappedT;
+        onChangePercent(snappedT);
     }
 
     public void OnDrawGizmosSelected()

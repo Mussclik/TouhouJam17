@@ -7,11 +7,12 @@ using UnityEngine;
 public class BallInteractible : InteractableBase
 {
     public event Action onExitBounds = () => { };
+    public event Action onWinEnter = () => { };
     public Vector3 startPosition;
     [SerializeField] private bool isActive = true;
     [SerializeField] private List<Collider> triggers;
 
-    private Coroutine failCoroutine = null;
+    private Coroutine myActiveCoroutine = null;
 
     void Start()
     {
@@ -32,19 +33,33 @@ public class BallInteractible : InteractableBase
                 //clamp position just in case :/ // Nuh uh :3
             }
 
-            if (triggers.Count == 0 && failCoroutine == null)
+            if (triggers.Count == 0 && myActiveCoroutine == null)
             {
                 Debug.Log("exitedBounds");
                 onExitBounds.Invoke();
-                failCoroutine = StartCoroutine(Fail());
+                myActiveCoroutine = StartCoroutine(Fail());
             }
         }
     }
 
-    IEnumerator Fail()
+    private IEnumerator Win()
     {
         CursorWorldInteraction.ForceHeldInteractableRelease();
-        AlarmLight.PlayAlarm();
+        isEnabled = false;
+        
+        yield return new WaitForSeconds(0.5f);
+        transform.position = startPosition;
+        yield return new WaitForSeconds(0.5f);
+
+        onWinEnter.Invoke();
+        isEnabled = true;
+        myActiveCoroutine = null;
+    }
+    
+    private IEnumerator Fail()
+    {
+        CursorWorldInteraction.ForceHeldInteractableRelease();
+        AlarmLight.PlayAlarm(AlarmType.MazeFail);
         isEnabled = false;
         
         yield return new WaitForSeconds(0.5f);
@@ -52,13 +67,19 @@ public class BallInteractible : InteractableBase
         yield return new WaitForSeconds(0.5f);
 
         isEnabled = true;
-        failCoroutine = null;
+        myActiveCoroutine = null;
     }
     
     private void OnTriggerEnter(Collider other)
     {
         if (!triggers.Contains(other))
             triggers.Add(other);
+
+        if (other.CompareTag("MazeWin"))
+        {
+            onWinEnter.Invoke();
+            myActiveCoroutine = StartCoroutine(Win());
+        }
     }
 
     private void OnTriggerExit(Collider other)
